@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Cadastro de Turmas</title>
+<link rel="stylesheet" href="../startic/turmas.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo-area">
+        <img src="../img/Logo EducaFlow em verde.png" alt="Logo">
+        <h2>EducaFlow</h2>
+    </div>
+
+    <nav>
+        <a href="../templates/index.html" class="menu-item"><i class="fa-solid fa-house"></i> Início</a>
+        <a href="../templates/alunos.html" class="menu-item"><i class="fa-solid fa-user-graduate"></i> Alunos</a>
+        <a href="../templates/turmas.html" class="menu-item"><i class="fa-solid fa-chalkboard"></i> Turmas</a>
+        <a href="../templates/servidores.html" class="menu-item"><i class="fa-solid fa-user-tie"></i> Servidores</a>
+        <a href="../templates/login.html" class="menu-item sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+    </nav>
+
+</aside>
+
+
+<div class="container_centralizado">
+    <div class="card_cadastro">
+        <h1>
+            Cadastro de Turmas
+        </h1>
+
+        <form id="form_turma">
+            <div class="form_grid">
+
+                <div class="grupo_input">
+                    <label><i class="fa-solid fa-calendar"></i> Ano Letivo:</label>
+                    <input type="number" id="ano_letivo" placeholder="Digite o ano letivo" required>
+                </div>
+
+                <div class="grupo_input">
+                    <label><i class="fa-solid fa-layer-group"></i> Série / Etapa:</label>
+                    <input type="text" id="serie_etapa" placeholder="Digite a série ou etapa" required>
+                </div>
+
+                <div class="grupo_input">
+                    <label><i class="fa-solid fa-clock"></i> Turno:</label>
+                    <input type="text" id="turno" placeholder="Matutino / Vespertino" required>
+                </div>
+
+                <div class="grupo_input">
+                    <label><i class="fa-solid fa-building"></i> Modalidade:</label>
+                    <input type="text" id="modalidade" placeholder="Integral / Meio período" required>
+                </div>
+
+                <div class="grupo_input">
+                    <label><i class="fa-solid fa-users"></i> Número de Alunos:</label>
+                    <input type="number" id="numero_alunos" placeholder="Digite o número de alunos" required>
+                </div>
+
+                <div class="grupo_input">
+                    <label><i class="fa-solid fa-chalkboard-user"></i> Professor Regente:</label>
+                    <input type="text" id="professor_regente" placeholder="Digite o nome do professor" required>
+                </div>
+
+                <div class="grupo_input">
+                    <label><i class="fa-solid fa-door-open"></i> Número da Sala:</label>
+                    <input type="number" id="numero_sala" placeholder="Digite o número da sala" required>
+                </div>
+
+                <button type="submit" class="botao_salvar">
+                    Cadastrar
+                </button>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer class="rodape">
+    © <span id="ano_atual"></span> Instituto Federal Baiano - Campus Bom Jesus da Lapa <br>
+    Desenvolvido por EducaFlow
+</footer>
+
+<script src="../startic/script_turmas.js"></script>
+
+</body>
+</html>
