@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>EducaFlow - Início</title>
+    <link rel="stylesheet" href="../startic/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo-area">
+        <img src="../img/Logo EducaFlow em verde.png" alt="Logo">
+        <h2>EducaFlow</h2>
+    </div>
+
+    <nav>
+        <a href="../templates/index.html" class="menu-item"><i class="fa-solid fa-house"></i> Início</a>
+        <a href="../templates/alunos.html" class="menu-item"><i class="fa-solid fa-user-graduate"></i> Alunos</a>
+        <a href="../templates/turmas.html" class="menu-item"><i class="fa-solid fa-chalkboard"></i> Turmas</a>
+        <a href="../templates/servidores.html" class="menu-item"><i class="fa-solid fa-user-tie"></i> Servidores</a>
+        <a href="../templates/login.html" class="menu-item sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+    </nav>
+
+</aside>
+
+
+<main class="conteudo">
+
+    <!-- CARDS MAIORES -->
+    <section class="cards">
+
+        <div class="card" onclick="mostrarLista('alunos')">
+            <h2>ALUNOS</h2>
+            <p class="quantidade" id="qtdAlunos">0</p>
+        </div>
+
+        <div class="card" onclick="mostrarLista('servidores')">
+            <h2>SERVIDORES</h2>
+            <p class="quantidade" id="qtdServidores">0</p>
+        </div>
+
+        <div class="card" onclick="mostrarLista('turmas')">
+            <h2>TURMAS</h2>
+            <p class="quantidade" id="qtdTurmas">0</p>
+        </div>
+
+    </section>
+
+    <!-- ÁREA DINÂMICA -->
+    <section class="area-dinamica">
+
+        <div id="imagemEscola">
+            <img src="../img/if baiano.jpeg" alt="IF Baiano">
+        </div>
+
+        <div id="listaContainer"></div>
+
+    </section>
+
+</main>
+
+<footer class="rodape">
+    <p>&copy; <span id="ano"></span> Instituto Federal Baiano - Campus Bom Jesus da Lapa</p>
+</footer>
+
+<script src="../startic/script.js"></script>
+
+</body>
+</html>
