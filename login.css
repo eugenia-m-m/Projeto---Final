@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'The Seasons', serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #223e3d, #030d00);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cabeçalho */
+.cabecalho {
+    height: 70px;
+}
+
+/* Conteúdo central */
+.conteudo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Logo */
+.caixa-logo {
+    background: white;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.caixa-logo:hover {
+    transform: translateY(-5px);
+}
+
+.caixa-logo img {
+    width: 250px;
+}
+
+/* Formulário */
+.formulario {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    width: 380px;
+    animation: aparecer 0.6s ease;
+}
+
+.logo-topo {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logo-topo img {
+    width: 160px;
+    margin-bottom: 0;
+}
+
+.logo-topo h2 {
+    color: #223d3c;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.formulario h1 {
+    margin-bottom: 25px;
+    color: #223d3c;
+    font-size: 22px;
+    text-align: center;
+}
+
+/* GRID */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+/* Campos */
+.solicitar-email,
+.solicitar-senha {
+    margin-bottom: 18px;
+}
+
+#email,
+#senha {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+#email:focus,
+#senha:focus {
+    border-color: #2e7d32;
+    outline: none;
+    box-shadow: 0 0 8px rgba(46,125,50,0.3);
+}
+
+/* Botão */
+#butao-login {
+    width: 100%;
+    padding: 12px;
+    background: #223c3b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#butao-login:hover {
+    background: #162827;
+    transform: translateY(-2px);
+}
+
+/* Rodapé */
+.rodape {
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+}
