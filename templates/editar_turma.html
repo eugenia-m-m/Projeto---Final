@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Atualizar Turma</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='editar_turma.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<div class="card_editar">
+
+    <div class="titulo_editar">
+        <h1>Atualizar Dados da Turma</h1>
+        <p>Edite as informações abaixo e clique em atualizar</p>
+    </div>
+
+    <form method="POST">
+        <div class="form_grid">
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-graduation-cap"></i> Nome da Turma:</label>
+                <input type="text" name="nome" placeholder="Digite o nome da turma..." required>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-calendar"></i> Ano Letivo:</label>
+                <input type="number" name="ano_letivo" placeholder="Digite o ano letivo..." required>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-layer-group"></i> Série / Etapa:</label>
+                <input type="text" name="serie_etapa" placeholder="Digite a série/etapa..." required>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-clock"></i> Turno:</label>
+                <input type="text" name="turno" placeholder="Digite o turno..." required>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-building"></i> Modalidade:</label>
+                <input type="text" name="modalidade" placeholder="Digite a modalidade..." required>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-users"></i> Número de Alunos:</label>
+                <input type="number" name="numero_alunos" placeholder="Digite o número de alunos..." required>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-chalkboard-user"></i> Professor Regente:</label>
+                <input type="text" name="professor_regente" placeholder="Digite o professor regente..." required>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-door-open"></i> Número da Sala:</label>
+                <input type="number" name="numero_sala" placeholder="Digite o número da sala..." required>
+            </div>
+
+            <button type="submit" class="botao_salvar">
+                Atualizar
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
