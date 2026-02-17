@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cadastrar Servidor</title>
-<link rel="stylesheet" href="../startic/servidores.css">
+<link rel="stylesheet" href="../static/servidores.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -13,16 +13,16 @@
 <aside class="sidebar">
 
     <div class="logo-area">
-        <img src="../startic/Logo EducaFlow em verde.png" alt="Logo">
+        <img src="{{ url_for('static', filename='Logo EducaFlow em verde.png') }}" alt="Logo">
         <h2>EducaFlow</h2>
     </div>
 
     <nav>
-        <a href="../templates/index.html" class="menu-item"><i class="fa-solid fa-house"></i> Início</a>
-        <a href="../templates/alunos.html" class="menu-item"><i class="fa-solid fa-user-graduate"></i> Alunos</a>
-        <a href="../templates/turmas.html" class="menu-item"><i class="fa-solid fa-chalkboard"></i> Turmas</a>
-        <a href="../templates/servidores.html" class="menu-item"><i class="fa-solid fa-user-tie"></i> Servidores</a>
-        <a href="../templates/login.html" class="menu-item sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+        <a href="/" class="menu-item"><i class="fa-solid fa-house"></i> Início</a>
+        <a href="/alunos.html" class="menu-item"><i class="fa-solid fa-user-graduate"></i> Alunos</a>
+        <a href="/turmas" class="menu-item"><i class="fa-solid fa-chalkboard"></i> Turmas</a>
+        <a href="/servidores.html" class="menu-item"><i class="fa-solid fa-user-tie"></i> Servidores</a>
+        <a href="/login.html" class="menu-item sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
     </nav>
 
 </aside>
@@ -103,6 +103,6 @@
 © Instituto Federal Baiano - Campus Bom Jesus da Lapa
 </footer>
 
-<script src="../startic/script_servidores.js"></script>
+<script src="{{ url_for('static', filename='script_servidores.js') }}"></script>
 </body>
 </html>
