@@ -1,0 +1,129 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* FUNDO DA PÁGINA */
+body {
+    background: linear-gradient(135deg, #204734, #03262b);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CARD PRINCIPAL */
+.card_editar {
+    background: #ffffff;
+    width: 95%;
+    max-width: 900px;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+/* TÍTULO */
+.titulo_editar {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.titulo_editar h1 {
+    font-size: 28px;
+    color: #0f172a;
+}
+
+.titulo_editar p {
+    color: #64748b;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+/* GRID DO FORM */
+.form_grid {
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* INPUTS */
+.grupo_input {
+    display: flex;
+    flex-direction: column;
+}
+
+.grupo_input label {
+    font-size: 14px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.grupo_input input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.grupo_input input:focus {
+    border-color: #10b981;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(16,185,129,0.2);
+}
+
+/* BOTÃO */
+.botao_salvar {
+    grid-column: span 2;
+    padding: 14px;
+    background: #02271b;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.botao_salvar:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+/* ALERTA DE CONFIRMAÇÃO */
+
+.alerta.deletado {
+    background-color: #fee2e2;
+    color: #7f1d1d;
+    border-left: 5px solid #ef4444;
+}
+
+/* ANIMAÇÃO */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    .form_grid {
+        grid-template-columns: 1fr;
+    }
+
+    .botao_salvar {
+        grid-column: span 1;
+    }
+}
