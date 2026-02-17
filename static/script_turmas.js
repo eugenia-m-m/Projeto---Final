@@ -1,151 +1,152 @@
-/* PESQUISA DE TURMAS*/
-
+// Espera o HTML da página carregar completamente antes de executar o código
 document.addEventListener("DOMContentLoaded", function () {
-    // Aguarda o carregamento completo da página
 
-    const campo_pesquisa = document.getElementById("buscar"); 
-    // Seleciona o campo de pesquisa pelo ID
+    // PESQUISA DE TURMAS
 
-    const tabela_turmas = document.getElementById("listaTurmas"); 
-    // Seleciona o corpo da tabela onde estão as turmas
+    // Pega o campo de pesquisa pelo ID "buscar"
+    const campo_pesquisa = document.getElementById("buscar");
 
-    const linhas_tabela = tabela_turmas.getElementsByTagName("tr"); 
-    // Pega todas as linhas da tabela
+    // Pega o corpo da tabela onde estão listadas as turmas
+    const tabela_turmas = document.getElementById("listaTurmas");
 
-    const total_turmas = document.getElementById("totalAlunos"); 
-    // Seleciona o elemento onde aparece o total
+    // Pega todas as linhas <tr> dentro da tabela de turmas
+    const linhas_tabela = tabela_turmas.getElementsByTagName("tr");
 
+    // Pega o elemento onde aparece o total de turmas visíveis
+    const total_turmas = document.getElementById("totalTurmas");
+
+    // Função responsável por atualizar o número total de turmas visíveis
     function atualizar_total() {
-        // Função que conta quantas linhas estão visíveis
 
-        let quantidade_visiveis = 0; 
-        // Variável para armazenar o total visível
+        // Variável que vai contar quantas linhas estão visíveis
+        let quantidade = 0;
 
+        // Percorre todas as linhas da tabela
         for (let i = 0; i < linhas_tabela.length; i++) {
-            // Percorre todas as linhas da tabela
 
+            // Verifica se a linha NÃO está escondida
             if (linhas_tabela[i].style.display !== "none") {
-                // Verifica se a linha NÃO está escondida
 
-                quantidade_visiveis++; 
-                // Soma 1 se a linha estiver visível
+                // Se estiver visível, soma 1
+                quantidade++;
             }
         }
 
-        total_turmas.textContent = quantidade_visiveis; 
         // Atualiza o número exibido na tela
+        total_turmas.textContent = quantidade;
     }
 
-    atualizar_total(); 
-    // Executa a função ao carregar a página
+    // Executa a função assim que a página carregar
+    atualizar_total();
 
+    // Adiciona evento ao campo de pesquisa
+    // "keyup" significa: toda vez que o usuário soltar uma tecla
     campo_pesquisa.addEventListener("keyup", function () {
-        // Executa quando o usuário digita algo
 
-        const texto_digitado = campo_pesquisa.value.toLowerCase(); 
         // Pega o texto digitado e transforma em minúsculo
+        const texto = campo_pesquisa.value.toLowerCase();
 
+        // Percorre todas as linhas da tabela
         for (let i = 0; i < linhas_tabela.length; i++) {
-            // Percorre todas as linhas
 
-            const conteudo_linha = linhas_tabela[i].textContent.toLowerCase(); 
-            // Pega todo o texto da linha
+            // Pega todo o texto da linha e transforma em minúsculo
+            const conteudo = linhas_tabela[i].textContent.toLowerCase();
 
-            if (conteudo_linha.includes(texto_digitado)) {
-                // Se a linha contém o texto digitado
+            // Verifica se o texto digitado está dentro da linha
+            if (conteudo.includes(texto)) {
 
-                linhas_tabela[i].style.display = ""; 
-                // Mostra a linha
+                // Se encontrar, mostra a linha
+                linhas_tabela[i].style.display = "";
+
             } else {
-                linhas_tabela[i].style.display = "none"; 
-                // Esconde a linha
+
+                // Se não encontrar, esconde a linha
+                linhas_tabela[i].style.display = "none";
             }
         }
 
-        atualizar_total(); 
-        // Atualiza o total após filtrar
+        // Atualiza o total depois de filtrar
+        atualizar_total();
     });
-});
 
 
-/* ALERTA AUTOMÁTICO DE SUCESSO */
 
-setTimeout(() => {
-    // Executa após 3 segundos
+    
 
-    const alerta_sucesso = document.querySelector(".alerta.sucesso"); 
-    // Seleciona o elemento com classe alerta
+    // ALERTA AUTOMÁTICO
 
-    if (alerta_sucesso) {
-        // Verifica se existe alerta na página
+    const alerta = document.querySelector(".alerta_sucesso");
 
-        alerta_sucesso.style.transition = "0.5s"; 
-        // Aplica transição suave
+    if (alerta) {
 
-        alerta_sucesso.style.opacity = "0"; 
-        // Deixa o alerta invisível
-
+        // Espera 3 segundos
         setTimeout(() => {
-            alerta_sucesso.remove(); 
-            // Remove o alerta do HTML
-        }, 500);
+
+            // Adiciona classe de esconder (ativa animação)
+            alerta.classList.add("esconder");
+
+            // Remove do HTML depois da animação
+            setTimeout(() => {
+                alerta.remove();
+            }, 400);
+
+        }, 3000);
     }
-}, 3000);
 
-/* MODAL DE CONFIRMAÇÃO PARA EXCLUSÃO */
+    // MODAL DE CONFIRMAÇÃO
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Aguarda carregamento completo
+    // Pega o modal de confirmação pelo ID
+    const modal = document.getElementById("modalConfirmacao");
 
-    const modal_confirmacao = document.getElementById("modalConfirmacao"); 
-    // Seleciona o modal
+    // Pega o elemento onde a mensagem será exibida
+    const mensagem = document.getElementById("modalMensagem");
 
-    const mensagem_modal = document.getElementById("modalMensagem"); 
-    // Seleciona o texto dentro do modal
+    // Pega o botão cancelar
+    const cancelar = document.getElementById("btnCancelar");
 
-    const botao_cancelar = document.getElementById("btnCancelar"); 
-    // Seleciona botão cancelar
+    // Pega o botão confirmar
+    const confirmar = document.getElementById("btnConfirmar");
 
-    const botao_confirmar = document.getElementById("btnConfirmar"); 
-    // Seleciona botão confirmar
+    // Variável que vai armazenar o link de exclusão
+    let link_exclusao = null;
 
-    let link_exclusao = null; 
-    // Variável que guardará o link da exclusão
-
+    // Seleciona todos os botões com classe "btn-deletar"
     document.querySelectorAll(".btn-deletar").forEach(botao => {
-        // Seleciona todos os botões de deletar
 
-        botao.addEventListener("click", function (evento) {
-            // Executa ao clicar no botão excluir
+        // Adiciona evento de clique para cada botão
+        botao.addEventListener("click", function (e) {
 
-            evento.preventDefault(); 
-            // Impede o redirecionamento automático
+            // Impede o redirecionamento automático do link
+            e.preventDefault();
 
-            link_exclusao = this.href; 
-            // Guarda o link da exclusão
+            // Guarda o link de exclusão
+            link_exclusao = this.href;
 
-            mensagem_modal.textContent =
+            // Define a mensagem que aparece no modal
+            mensagem.textContent =
                 "Tem certeza que deseja excluir esta turma? Essa ação não poderá ser desfeita.";
-            // Define mensagem do modal
 
-            modal_confirmacao.style.display = "flex"; 
             // Mostra o modal na tela
+            modal.style.display = "flex";
         });
     });
 
-    botao_cancelar.addEventListener("click", function () {
-        // Quando clicar em cancelar
+    // Quando clicar no botão cancelar
+    cancelar.addEventListener("click", function () {
 
-        modal_confirmacao.style.display = "none"; 
         // Fecha o modal
+        modal.style.display = "none";
     });
 
-    botao_confirmar.addEventListener("click", function () {
-        // Quando clicar em confirmar
+    // Quando clicar no botão confirmar
+    confirmar.addEventListener("click", function () {
 
+        // Se existir um link guardado
         if (link_exclusao) {
-            window.location.href = link_exclusao; 
+
             // Redireciona para o link de exclusão
+            window.location.href = link_exclusao;
         }
     });
+
 });
