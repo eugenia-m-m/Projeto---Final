@@ -90,7 +90,6 @@ setTimeout(() => {
             // Remove o alerta do HTML
         }, 500);
     }
-
 }, 3000);
 
 /* MODAL DE CONFIRMAÇÃO PARA EXCLUSÃO */
