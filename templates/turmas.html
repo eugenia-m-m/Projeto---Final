@@ -10,7 +10,6 @@
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
-
     <div class="logo-area">
         <img src="{{ url_for('static', filename='Logo EducaFlow em verde.png') }}" alt="Logo">
         <h2>EducaFlow</h2>
@@ -23,102 +22,80 @@
         <a href="/servidores.html" class="menu-item"><i class="fa-solid fa-user-tie"></i> Servidores</a>
         <a href="/login.html" class="menu-item sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
     </nav>
-
 </aside>
 
-
-<!-- CONTEÚDO -->
 <div class="conteudo">
+
     <div class="topo">
         <h1>Lista de Turmas</h1>
-        <a href="/cadastrar_turma" class="btn-add">
-            <i class="fa-solid fa-plus"></i> Adicionar Turma
-        </a>
+        <a href="/cadastrar_turma" class="btn-add"><i class="fa-solid fa-plus"></i> Adicionar Turma</a>
     </div>
 
+    <!-- ALERTA -->
     {% if request.args.get('sucesso') %}
     <div class="alerta_sucesso">
-        ✅ Atualização feita com sucesso!
+        Atualização feita com sucesso!
     </div>
     {% endif %}
 
     {% if request.args.get('deletado') %}
         <div class="alerta_sucesso">
-            ✅ Turma deletada com sucesso!
+            Turma deletada com sucesso!
         </div>
     {% endif %}
 
     <div class="barra-pesquisa">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="buscar" placeholder="Pesquisar turma...">
+        <input type="text" id="buscar" placeholder="🔎Pesquisar turma...">
     </div>
 
     <h3>Total: <span id="totalTurmas">0</span></h3>
 
     <table class="tabela">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Ano</th>
-            <th>Série</th>
-            <th>Turno</th>
-            <th>Modalidade</th>
-            <th>Nº Alunos</th>
-            <th>Sala</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Ano</th>
+                <th>Série</th>
+                <th>Turno</th>
+                <th>Modalidade</th>
+                <th>Nº Alunos</th>
+                <th>Sala</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
 
-    <tbody id="listaTurmas">
-        {% for turma in turmas %}
-        <tr>
-            <td>{{ turma.nome }}</td>
-            <td>{{ turma.ano_letivo }}</td>
-            <td>{{ turma.serie_etapa }}</td>
-            <td>{{ turma.turno }}</td>
-            <td>{{ turma.modalidade }}</td>
-            <td>{{ turma.numero_alunos }}</td>
-            <td>{{ turma.numero_sala }}</td>
-            <td>
-                <a href="/editar_turma/{{ turma.id }}"><i class="fa-solid fa-pen"></i></a> <!-- editar-->
-                <a href="/deletar_turma/{{ turma.id }}" class="btn-deletar"> <i class="fa-solid fa-trash"></i></a> <!-- deletar -->
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <tbody id="listaTurmas">
+            {% for turma in turmas %}
+            <tr>
+                <td>{{ turma.nome }}</td>
+                <td>{{ turma.ano_letivo }}</td>
+                <td>{{ turma.serie_etapa }}</td>
+                <td>{{ turma.turno }}</td>
+                <td>{{ turma.modalidade }}</td>
+                <td>{{ turma.numero_alunos }}</td>
+                <td>{{ turma.numero_sala }}</td>
+                <td>
+                    <a href="/editar_turma/{{ turma.id }}"><i class="fa-solid fa-pen"></i></a> <!--editar-->
+                    <a href="/deletar_turma/{{ turma.id }}" class="btn-deletar"><i class="fa-solid fa-trash"></i></a> <!--deletar-->
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
-{% if request.args.get('sucesso') %}
-    <div class="alerta_sucesso">
-        ✅ Atualização feita com sucesso!
-    </div>
-{% endif %}
-
-
-<!-- MODAL DE CONFIRMAÇÃO -->
+<!-- MODAL -->
 <div id="modalConfirmacao" class="modal">
     <div class="modal-content">
-        <h2 id="modalTitulo">Confirmação</h2>
+        <h2>Confirmação</h2>
         <p id="modalMensagem"></p>
-
         <div class="modal-botoes">
-            <button id="btnCancelar" class="btn-cancelar">Cancelar</button>
-            <button id="btnConfirmar" class="btn-confirmar">Confirmar</button>
+            <button id="btnCancelar">Cancelar</button>
+            <button id="btnConfirmar">Confirmar</button>
         </div>
     </div>
 </div>
 
-<footer class="rodape">
-    © <span id="anoAtual"></span> Instituto Federal Baiano - Campus Bom Jesus da Lapa <br>
-    Desenvolvido por EducaFlow
-</footer>
-
 <script src="{{ url_for('static', filename='script_turmas.js') }}"></script>
-
-<script>
-document.getElementById("anoAtual").textContent = new Date().getFullYear();
-</script>
-
 </body>
 </html>
