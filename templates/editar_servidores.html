@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Atualizar Servidores</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='editar_servidores.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<div class="card_editar">
+
+    <div class="titulo_editar">
+        <h1>Atualizar Dados de Servidor</h1>
+        <p>Edite as informações abaixo e clique em atualizar</p>
+    </div>
+
+    <form method="POST">
+        <div class="form_grid">
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-user"></i> Nome</label>
+                <input type="text" name="nome_servidor" placeholder="Digite o seu nome" required>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-id-card"></i> CPF</label>
+                <input type="text" name="cpf_servidor" placeholder="Digite seu CPF" required>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-envelope"></i> Email</label>
+                <input type="email" name="email_servidor" placeholder="Digite seu email" required>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-location-dot"></i> Endereço:</label>
+                <input type="text" name="endereco" placeholder="Rua X, Bairro Y">
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-map"></i> Estado:</label>
+                <input type="text" name="estado" placeholder="Digite seu estado">
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-city"></i> Cidade:</label>
+                <input type="text" name="cidade" placeholder="Digite sua cidade">
+            </div>
+
+            <div class="grupo_input" style="grid-column: span 2;">
+                <label><i class="fa-solid fa-venus-mars"></i> Gênero</label>
+                <div class="grupo_genero">
+                    <label><input type="radio" name="genero" value="Feminino"> Feminino</label>
+                    <label><input type="radio" name="genero" value="Masculino"> Masculino</label>
+                    <label><input type="radio" name="genero" value="Outro"> Outro</label>
+                    <label><input type="radio" name="genero" value="Prefiro não dizer"> Prefiro não dizer</label>
+                </div>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-phone"></i> Telefone</label>
+                <input type="text" name="telefone_servidor" placeholder="Digite seu telefone" required>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-briefcase"></i> Cargo</label>
+                <input type="text" name="cargo_servidor" placeholder="Digite seu cargo" required>
+            </div>
+
+            <div class="grupo_input">
+                <label><i class="fa-solid fa-calendar"></i> Data de Ingresso</label>
+                <input type="date" name="data_ingresso" placeholder="Digite a data" required>
+            </div>
+
+            <button type="submit" class="botao_salvar">
+                Atualizar
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
