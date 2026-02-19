@@ -146,6 +146,7 @@ def deletar_turma(id):
 
 
 # ROTA PARA EDITAR TURMA # 
+
 @app.route("/editar_turma/<int:id>", methods=["GET", "POST"])
 # Define rota para editar turma
 # Aceita dois métodos:
@@ -221,6 +222,203 @@ def editar_turma(id):
 
     return render_template("editar_turma.html", turma=turma)
     # Envia os dados para o HTML preencher o formulário
+
+
+#--------------------------------SERVIDORES-------------------------------------------------------#
+
+# CRIAÇÃO DA TABELA SERVIDORES # 
+
+def criar_tabela_servidores():
+    """
+    Cria a tabela 'servidores' caso ela ainda não exista.
+    """
+
+    conn = conectar()  # Abre conexão com o banco
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS servidores (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,  -- ID automático
+            nome TEXT,                             -- Nome do servidor
+            cpf TEXT,                              -- CPF
+            email TEXT,                            -- Email
+            endereco TEXT,                         -- Endereço
+            estado TEXT,                           -- Estado
+            cidade TEXT,                           -- Cidade
+            genero TEXT,                           -- Gênero
+            telefone TEXT,                         -- Telefone
+            cargo TEXT,                            -- Cargo
+            data_ingresso TEXT                     -- Data de ingresso
+        )
+    """)
+
+    conn.commit()  # Salva alterações
+    conn.close()   # Fecha conexão
+
+
+# Executa ao iniciar o sistema
+criar_tabela_servidores()
+
+
+# LISTAR SERVIDORES # 
+
+@app.route("/servidores")
+def listar_servidores():
+    """
+    Busca todos os servidores cadastrados
+    e envia para servidores.html
+    """
+
+    conn = conectar()  # Conecta ao banco
+
+    servidores = conn.execute(
+        "SELECT * FROM servidores"
+    ).fetchall()
+
+    conn.close()
+
+    return render_template(
+        "servidores.html",
+        servidores=servidores
+    )
+
+
+# CADASTRAR SERVIDOR # 
+
+@app.route("/cadastrar_servidores", methods=["GET", "POST"])
+def cadastrar_servidor():
+
+    if request.method == "POST":
+
+        # Captura dados do formulário
+        nome = request.form["nome"]
+
+        cpf = request.form["cpf"]
+
+        email = request.form["email"]
+
+        endereco = request.form["endereco"]
+
+        estado = request.form["estado"]
+
+        cidade = request.form["cidade"]
+
+        genero = request.form["genero"]
+
+        telefone = request.form["telefone"]
+
+        cargo = request.form["cargo"]
+
+        data_ingresso = request.form["data"]
+
+        conn = conectar()
+
+        # Insere no banco
+        conn.execute("""
+            INSERT INTO servidores
+            (nome, 
+            cpf, 
+            email, 
+            endereco, 
+            estado, 
+            cidade, 
+            genero, 
+            telefone, 
+            cargo, 
+            data_ingresso)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (nome, cpf, email, endereco, estado, cidade,
+              genero, telefone, cargo, data))
+
+
+        conn.commit()
+        conn.close()
+
+        return redirect("/servidores")
+
+    return render_template("cadastrar_servidores.html")
+
+
+# EDITAR SERVIDOR #
+
+@app.route("/editar_servidores/<int:id>", methods=["GET", "POST"])
+def editar_servidor(id):
+
+    conn = conectar()
+
+    if request.method == "POST":
+
+        nome = request.form["nome"]
+
+        cpf = request.form["cpf"]
+
+        email = request.form["email"]
+
+        endereco = request.form["endereco"]
+
+        estado = request.form["estado"]
+
+        cidade = request.form["cidade"]
+
+        genero = request.form["genero"]
+
+        telefone = request.form["telefone"]
+
+        cargo = request.form["cargo"]
+
+        data_ingresso = request.form["data"]
+
+        conn.execute("""
+            UPDATE servidores SET
+            nome = ?, 
+            cpf = ?, 
+            email = ?, 
+            endereco = ?, 
+            estado = ?,
+            cidade = ?, 
+            genero = ?, 
+            telefone = ?, 
+            cargo = ?, 
+            data_ingresso = ?
+            WHERE id = ?
+        """, (nome, cpf, email, endereco, estado, cidade, 
+              genero, telefone, cargo, id))
+
+        conn.commit()
+        conn.close()
+
+        return redirect("/servidores")
+
+    servidor = conn.execute(
+        "SELECT * FROM servidores WHERE id = ?",
+        (id,)
+    ).fetchone()
+
+    conn.close()
+
+    return render_template("editar_servidores.html", servidor=servidor)
+
+
+# DELETAR SERVIDOR #
+
+@app.route("/deletar_servidores/<int:id>")
+def deletar_servidor(id):
+    conn = conectar()
+    # Abre conexão com o banco de dados
+
+    conn.execute("DELETE FROM servidores WHERE id = ?", (id,))
+    # Executa comando SQL para deletar o servidor com o ID informado
+
+    conn.commit()
+    # Salva a alteração no banco
+
+    conn.close()
+    # Fecha conexão com o banco
+
+    flash("Servidor deletado com sucesso!", "sucesso")
+
+    return redirect("/servidores?deletado=1")
+    # Redireciona para a página de servidores
+    # Passa parâmetro na URL para mostrar mensagem de sucesso
 
 
 # EXECUTA O SERVIDOR #
