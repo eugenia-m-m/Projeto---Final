@@ -1,17 +1,52 @@
 # Importa as funções principais do Flask
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, url_for
+# Responsável por gerenciar o sistema de Login
+from flask_login import LoginManager, login_user, login_required
+from db_database import db
+from modelos import Usuario
 
 # Importa o SQLite para usar banco de dados local
 import sqlite3
 
 
+
 # Cria a aplicação Flask
 app = Flask(__name__)
+app.secret_key = "segredo_super_secreto"
+lm = LoginManager(app)
+# Quando não tiver autorização, ele vai para a página de login
+lm.login_view = 'registrar'
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
+db.init_app(app)
+
+@lm.user_loader
+def user_loader(id): # O sistema vai tentar obter o usuário que está logado através do ID
+    usuario = db.session.query(Usuario).filter_by(id=id).first() # Aqui, criamos uma variável "usuario" que está puxando do banco de dados, da tabela do usuario, o id que seja igual ao que forneceu como parametro
+    return usuario
+
 
 # Chave secreta necessária para usar mensagens flash
 # (usada para segurança interna do Flask)
-app.secret_key = "segredo_super_secreto"
+#app.secret_key = "segredo_super_secreto"
 
+#------------------------------------------------LOGIN----------------------------------------------------------
+@app.route('/registrar', methods=['GET', 'POST'])
+def registrar():
+    if request.method == 'GET':
+        return render_template('registrar.html')
+    elif request.method == 'POST':
+        email = request.form['solicitar_email']
+        senha = request.form['solicitar_senha']
+
+        novo_usuario = Usuario(email=email, senha=senha)
+        db.session.add(novo_usuario)
+        db.session.commit()
+
+        login_user(novo_usuario)
+
+        #render_template('index.html')
+        return redirect(url_for('home'))
+        #render_template('index.html')
 
 # FUNÇÃO DE CONEXÃO COM O BANCO DE DADOS #
 def conectar():
@@ -27,11 +62,30 @@ def conectar():
 
 # ROTA PRINCIPAL (HOME) #
 @app.route("/")
+# Só pode acessar a homepage, se estiver logado (login_required)
+@login_required
 def home():
     """
     Renderiza a página inicial do sistema.
     """
     return render_template("index.html")
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        email = request.form['solicitar_email']
+        senha = request.form['solicitar_senha']
+
+        user = db.session.query(Usuario).filter_by(email=email, senha=senha).first()
+        if not user:
+            return 'Nome ou senha incorretos'
+        
+        login_user(user)
+        #render_template('index.html')
+        return redirect(url_for('home'))
+
 
 
 # CRIAÇÃO DA TABELA (CASO NÃO EXISTA) # 
@@ -423,5 +477,7 @@ def deletar_servidor(id):
 
 # EXECUTA O SERVIDOR #
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     # debug=True permite atualizar automaticamente ao salvar
     app.run(debug=True)
