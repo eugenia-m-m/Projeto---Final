@@ -1,9 +1,10 @@
 # Importa as funções principais do Flask
 from flask import Flask, render_template, request, redirect, flash, url_for
 # Responsável por gerenciar o sistema de Login
-from flask_login import LoginManager, login_user, login_required
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from db_database import db
 from modelos import Usuario
+import hashlib
 
 # Importa o SQLite para usar banco de dados local
 import sqlite3
@@ -15,9 +16,15 @@ app = Flask(__name__)
 app.secret_key = "segredo_super_secreto"
 lm = LoginManager(app)
 # Quando não tiver autorização, ele vai para a página de login
-lm.login_view = 'registrar'
+lm.login_view = 'login'
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
 db.init_app(app)
+
+
+def hash(txt):
+    hash_objeto = hashlib.sha256(txt.encode('utf-8'))
+    return hash_objeto.hexdigest()
+
 
 @lm.user_loader
 def user_loader(id): # O sistema vai tentar obter o usuário que está logado através do ID
@@ -35,18 +42,21 @@ def registrar():
     if request.method == 'GET':
         return render_template('registrar.html')
     elif request.method == 'POST':
-        email = request.form['solicitar_email']
-        senha = request.form['solicitar_senha']
+        email = request.form['emailForm']
+        senha = request.form['senhaForm']
 
-        novo_usuario = Usuario(email=email, senha=senha)
+        novo_usuario = Usuario(email=email, senha=hash(senha))
         db.session.add(novo_usuario)
         db.session.commit()
 
-        login_user(novo_usuario)
-
-        #render_template('index.html')
         return redirect(url_for('home'))
-        #render_template('index.html')
+        
+
+@app.route('/sair')
+@login_required
+def sair():
+    logout_user()
+    return redirect(url_for('login'))
 
 # FUNÇÃO DE CONEXÃO COM O BANCO DE DADOS #
 def conectar():
@@ -65,6 +75,7 @@ def conectar():
 # Só pode acessar a homepage, se estiver logado (login_required)
 @login_required
 def home():
+    print(current_user.email)
     """
     Renderiza a página inicial do sistema.
     """
@@ -75,15 +86,14 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     elif request.method == 'POST':
-        email = request.form['solicitar_email']
-        senha = request.form['solicitar_senha']
+        email = request.form['emailForm']
+        senha = request.form['senhaForm']
 
-        user = db.session.query(Usuario).filter_by(email=email, senha=senha).first()
+        user = db.session.query(Usuario).filter_by(email=email, senha=hash(senha)).first()
         if not user:
             return 'Nome ou senha incorretos'
         
         login_user(user)
-        #render_template('index.html')
         return redirect(url_for('home'))
 
 
