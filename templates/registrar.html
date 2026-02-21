@@ -18,15 +18,15 @@
                 <img src="../static/Logo EducaFlow em verde.png" alt="Logo EducaFlow">
             </div>
 
-            <form>
+            <form method="POST" action="{{ url_for('registrar') }}">
                 <h1>FAÇA O SEU LOGIN</h1>
 
                 <div class="solicitar-email">
-                    <input id="email" placeholder="Email" type="email" required />
+                    <input id="email" placeholder="Email" type="email" name="emailForm" required  />
                 </div>
 
                 <div class="solicitar-senha">
-                    <input id="senha" placeholder="Senha" type="password" required />
+                    <input id="senha" placeholder="Senha" type="password" name="senhaForm" required />
                 </div>
 
                 <button id="butao-login" type="submit">
