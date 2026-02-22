@@ -97,7 +97,7 @@ body {
     border: 1px solid #ccc;
 }
 
-/* TABELA IGUAL TURMAS */
+/* TABELA */
 .tabela {
     width: 100%;
     border-collapse: collapse;
@@ -121,7 +121,7 @@ body {
     border-bottom: 1px solid #ddd;
 }
 
-/* ALERTA SUCESSO TOPO */
+ALERTA SUCESSO TOPO
 .alerta_sucesso {
     position: fixed;
     top: 30px;
@@ -136,7 +136,7 @@ body {
     z-index: 9999;
 }
 
-/* CADASTRO IGUAL TURMAS */
+/* CADASTRO */
 .container_centralizado {
     margin-left: 260px;
     min-height: 100vh;
@@ -207,6 +207,160 @@ body {
 .botao_salvar:hover {
     background-color: #2f4443;
     transform: translateY(-2px);
+}
+
+/* MODAL CONFIRMAÇÃO */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: #ffffff;
+    width: 420px;
+    padding: 35px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+    animation: modal_entrada 0.35s ease;
+    position: relative;
+}
+
+/* Animação suave */
+@keyframes modal_entrada {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Ícone de alerta */
+.modal-content::before {
+    content: "⚠";
+    font-size: 45px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+/* Título */
+.modal-content h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #22302f;
+}
+
+/* Texto */
+.modal-content p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* Botões */
+.modal-botoes {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* Botão cancelar */
+#btnCancelar {
+    background: #e5e7eb;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+#btnCancelar:hover {
+    background: #d1d5db;
+}
+
+/* Botão confirmar */
+#btnConfirmar {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+#btnConfirmar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+}
+
+
+
+/* ALERTA DE SUCESSO - TOPO CENTRAL */
+
+.alerta_sucesso {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white;
+
+    padding: 18px 40px;
+    border-radius: 14px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+
+    z-index: 9999;
+
+    opacity: 0;
+    animation: aparecer_alerta 0.4s ease forwards;
+}
+
+/* Animação de entrada */
+@keyframes aparecer_alerta {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+/* Classe usada para desaparecer */
+.alerta_sucesso.esconder {
+    animation: desaparecer_alerta 0.4s ease forwards;
+}
+
+/* Animação de saída */
+@keyframes desaparecer_alerta {
+    from {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
 }
 
 /* RODAPÉ */
