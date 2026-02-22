@@ -1,29 +1,3 @@
-document.getElementById("ano").textContent = new Date().getFullYear();
-
-const banco = {
-    alunos: [
-        { nome: "Ana Oliveira", turma: "3º Ano A", email: "ana@ifbaiano.edu.br" },
-        { nome: "Pedro Nascimento", turma: "2º Ano B", email: "pedro@ifbaiano.edu.br" },
-        { nome: "Larissa Mendes", turma: "1º Ano C", email: "larissa@ifbaiano.edu.br" }
-    ],
-    servidores: [
-        { nome: "Prof. Ana", turma: "Matemática", email: "ana@ifbaiano.edu.br" },
-        { nome: "Prof. Pedro", turma: "História", email: "pedro@ifbaiano.edu.br" }
-    ],
-    turmas: [
-        { nome: "3º Informática", turma: "Manhã", email: "30 alunos" },
-        { nome: "2º Agro", turma: "Tarde", email: "25 alunos" }
-    ]
-};
-
-atualizarContadores();
-
-function atualizarContadores() {
-    document.getElementById("qtdAlunos").textContent = banco.alunos.length;
-    document.getElementById("qtdServidores").textContent = banco.servidores.length;
-    document.getElementById("qtdTurmas").textContent = banco.turmas.length;
-}
-
 function mostrarLista(tipo) {
 
     document.getElementById("imagemEscola").style.display = "none";
@@ -67,3 +41,4 @@ function mostrarLista(tipo) {
 function filtrar(texto, tipo) {
     mostrarLista(tipo);
 }
+
