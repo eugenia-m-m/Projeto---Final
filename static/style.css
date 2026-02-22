@@ -68,25 +68,34 @@ body {
 /* CARDS MAIORES */
 .cards {
     display: flex;
-    gap: 50px;
+    gap: 30px;
     justify-content: center;
     margin-bottom: 50px;
 }
 
 .card {
-    background: #22302f;
+    width: 260px;       /* largura fixa */
+    height: 150px;      /* altura fixa */
+    background: linear-gradient(135deg, #1f2f2b, #1c3a35);
     color: white;
-    width: 280px;
-    height: 160px;
-    border-radius: 25px;
-    display: flex;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    display: flex;      
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
-    transition: 0.3s;
+    text-align: center;
 }
 
+.card h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.card span {
+    font-size: 36px;
+    font-weight: bold;
+}
 .card:hover {
     transform: scale(1.05);
     background-color: #0d3a37;
