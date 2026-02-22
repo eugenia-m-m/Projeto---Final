@@ -103,13 +103,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const campo_pesquisa = document.getElementById("buscar");
 
     // Pega o corpo da tabela onde estão listadas as turmas
-    const tabela_turmas = document.getElementById("listaTurmas");
+    const tabela_servidores = document.getElementById("listaServidores");
 
     // Pega todas as linhas <tr> dentro da tabela de turmas
-    const linhas_tabela = tabela_turmas.getElementsByTagName("tr");
+    const linhas_tabela = tabela_servidores.getElementsByTagName("tr");
 
     // Pega o elemento onde aparece o total de turmas visíveis
-    const total_turmas = document.getElementById("totalTurmas");
+    const total_servidores = document.getElementById("totalServidores");
 
     // Função responsável por atualizar o número total de turmas visíveis
     function atualizar_total() {
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Atualiza o número exibido na tela
-        total_turmas.textContent = quantidade;
+        total_servidores.textContent = quantidade;
     }
 
     // Executa a função assim que a página carregar
