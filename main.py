@@ -12,7 +12,8 @@ import sqlite3 # Importa o SQLite para usar banco de dados local
 
 # Cria a aplicação Flask
 app = Flask(__name__)
-# app.secret_key = "segredo_super_secreto"
+app.config["SECRET_KEY"] = "eduflow_sistema_2026_seguro" #o Flask exige uma SECRET_KEY definida para funcionar, sem ela, ele vai dar erro
+
 lm = LoginManager(app)
 # Quando não tiver autorização, ele vai para a página de login
 lm.login_view = 'login'
@@ -31,9 +32,6 @@ def user_loader(id): # O sistema vai tentar obter o usuário que está logado at
     return usuario
 
 
-# Chave secreta necessária para usar mensagens flash
-# (usada para segurança interna do Flask)
-# app.secret_key = "segredo_super_secreto"
 
 # FUNÇÃO DE CONEXÃO COM O BANCO DE DADOS #
 def conectar():
@@ -45,13 +43,6 @@ def conectar():
     conn = sqlite3.connect("database.db")
     conn.row_factory = sqlite3.Row
     return conn
-
-# @app.route("/")
-# def home():
-#     """
-#     Renderiza a página inicial do sistema.
-#     """
-#     return render_template("index.html")
 
 
 #------------------------------------------------LOGIN----------------------------------------------------------
@@ -78,15 +69,37 @@ def sair():
 
 
 # ROTA PRINCIPAL (HOME) #
-@app.route("/")
-# Só pode acessar a homepage, se estiver logado (login_required)
+@app.route("/") # Só pode acessar a homepage, se estiver logado (login_required)
 @login_required
 def home():
-    print(current_user.email)
-    """
-    Renderiza a página inicial do sistema.
-    """
-    return render_template("index.html")
+    print(current_user.email) 
+    """ Renderiza a página inicial do sistema. """
+
+    conn = conectar()
+
+    # Conta total de alunos
+    total_alunos = conn.execute(
+        "SELECT COUNT(*) FROM alunos"
+    ).fetchone()[0]
+
+    # Conta total de servidores
+    total_servidores = conn.execute(
+        "SELECT COUNT(*) FROM servidores"
+    ).fetchone()[0]
+
+    # Conta total de turmas
+    total_turmas = conn.execute(
+        "SELECT COUNT(*) FROM turmas"
+    ).fetchone()[0]
+
+    conn.close()
+
+    return render_template(
+        "index.html",
+        total_alunos=total_alunos,
+        total_servidores=total_servidores,
+        total_turmas=total_turmas
+    )
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -299,7 +312,6 @@ def editar_turma(id):
 #--------------------------------SERVIDORES-------------------------------------------------------#
 
 # CRIAÇÃO DA TABELA SERVIDORES # 
-
 def criar_tabela_servidores():
     """
     Cria a tabela 'servidores' caso ela ainda não exista.
@@ -332,7 +344,6 @@ criar_tabela_servidores()
 
 
 # LISTAR SERVIDORES # 
-
 @app.route("/servidores")
 def listar_servidores():
     """
@@ -355,7 +366,6 @@ def listar_servidores():
 
 
 # CADASTRAR SERVIDOR # 
-
 @app.route("/cadastrar_servidores", methods=["GET", "POST"])
 def cadastrar_servidor():
 
@@ -469,7 +479,6 @@ def editar_servidor(id):
 
 
 # DELETAR SERVIDOR #
-
 @app.route("/deletar_servidores/<int:id>")
 def deletar_servidor(id):
 
@@ -488,6 +497,197 @@ def deletar_servidor(id):
     flash("Servidores deletado com sucesso!", "sucesso")
 
     return redirect("/servidores?deletado=1")
+    # Redireciona para a página de servidores
+    # Passa parâmetro na URL para mostrar mensagem de sucesso
+
+
+#--------------------------------------------ALUNOS----------------------------------------------#
+# CRIAR TABELA ALUNOS #
+def criar_tabela_alunos():
+    """
+    Cria a tabela 'alunos' caso ela ainda não exista.
+    """
+
+    conn = conectar()  # Abre conexão com o banco
+
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS alunos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,  -- ID automático
+            nome TEXT,                             -- Nome do servidor
+            cpf TEXT,                              -- CPF
+            email TEXT,                            -- Email
+            endereco TEXT,                         -- Endereço
+            estado TEXT,                           -- Estado
+            cidade TEXT,                           -- Cidade
+            genero TEXT,                           -- Gênero
+            telefone TEXT,                         -- Telefone
+            matricula TEXT,                        -- Número de matricula
+            data_nascimento TEXT                   -- Data de nascimento
+        )
+    """)
+
+    conn.commit()  # Salva alterações
+    conn.close()   # Fecha conexão
+
+
+# Executa ao iniciar o sistema
+criar_tabela_alunos()
+
+
+# LISTAR ALUNOS# 
+@app.route("/alunos")
+def listar_alunos():
+    """
+    Busca todos os alunos cadastrados
+    e envia para alunos.html
+    """
+
+    conn = conectar()  # Conecta ao banco
+
+    alunos = conn.execute(
+        "SELECT * FROM alunos"
+    ).fetchall()
+
+    conn.close()
+
+    return render_template(
+        "alunos.html",
+        alunos=alunos
+    )
+
+
+# CADASTRAR ALUNO # 
+@app.route("/cadastrar_alunos", methods=["GET", "POST"])
+def cadastrar_aluno():
+
+    if request.method == "POST":
+
+        # Captura dados do formulário
+        nome = request.form["nome"]
+
+        cpf = request.form["cpf"]
+
+        email = request.form["email"]
+
+        endereco = request.form["endereco"]
+
+        estado = request.form["estado"]
+
+        cidade = request.form["cidade"]
+
+        genero = request.form.get("genero", "") #se não vier nada, não quebra o sistema.
+
+        telefone = request.form["telefone"]
+
+        matricula = request.form["matricula"]
+
+        data_nascimento = request.form["data_nascimento"]
+
+        conn = conectar()
+
+        # Insere no banco
+        conn.execute("""
+            INSERT INTO alunos
+            (nome, 
+            cpf,
+            email, 
+            endereco, 
+            estado, 
+            cidade, 
+            genero, 
+            telefone, 
+            matricula, 
+            data_nascimento)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (nome, cpf, email, endereco, estado, cidade,
+                genero, telefone, matricula, data_nascimento))
+
+        conn.commit()
+        conn.close()
+
+        return redirect("/alunos")
+
+    return render_template("cadastrar_alunos.html")
+
+
+# EDITAR ALUNO #
+@app.route("/editar_alunos/<int:id>", methods=["GET", "POST"])
+def editar_aluno(id):
+
+    conn = conectar()
+
+    if request.method == "POST":
+
+        nome = request.form["nome"]
+
+        cpf = request.form["cpf"]
+
+        email = request.form["email"]
+
+        endereco = request.form["endereco"]
+
+        estado = request.form["estado"]
+
+        cidade = request.form["cidade"]
+
+        genero = request.form.get("genero", "")
+
+        telefone = request.form["telefone"]
+
+        matricula= request.form["matricula"]
+
+        data_nascimento = request.form["data_nascimento"]
+
+        conn.execute("""
+            UPDATE alunos SET
+            nome = ?, 
+            cpf = ?, 
+            email = ?, 
+            endereco = ?, 
+            estado = ?,
+            cidade = ?, 
+            genero = ?, 
+            telefone = ?, 
+            matricula = ?, 
+            data_nascimento = ?
+            WHERE id = ?
+        """, (nome, cpf, email, endereco, estado, cidade, 
+            genero, telefone, matricula, data_nascimento, id))
+
+        conn.commit()
+        conn.close()
+
+        return redirect("/alunos")
+
+    aluno = conn.execute(
+        "SELECT * FROM alunos WHERE id = ?",
+        (id,)
+    ).fetchone()
+
+    conn.close()
+
+    return render_template("editar_alunos.html", aluno=aluno)
+
+
+# DELETAR ALUNO #
+@app.route("/deletar_alunos/<int:id>")
+def deletar_aluno(id):
+
+    conn = conectar()
+    # Abre conexão com o banco de dados
+
+    conn.execute("DELETE FROM alunos WHERE id = ?", (id,))
+    # Executa comando SQL para deletar o servidor com o ID informado
+
+    conn.commit()
+    # Salva a alteração no banco
+
+    conn.close()
+    # Fecha conexão com o banco
+
+    flash("Aluno deletado com sucesso!", "sucesso")
+
+    return redirect("/alunos?deletado=1")
     # Redireciona para a página de servidores
     # Passa parâmetro na URL para mostrar mensagem de sucesso
 
