@@ -1,19 +1,18 @@
 # Importa as funções principais do Flask
 from flask import Flask, render_template, request, redirect, flash, url_for
+
 # Responsável por gerenciar o sistema de Login
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from db_database import db
 from modelos import Usuario
 import hashlib
-
-# Importa o SQLite para usar banco de dados local
-import sqlite3
+import sqlite3 # Importa o SQLite para usar banco de dados local
 
 
 
 # Cria a aplicação Flask
 app = Flask(__name__)
-app.secret_key = "segredo_super_secreto"
+# app.secret_key = "segredo_super_secreto"
 lm = LoginManager(app)
 # Quando não tiver autorização, ele vai para a página de login
 lm.login_view = 'login'
@@ -34,7 +33,26 @@ def user_loader(id): # O sistema vai tentar obter o usuário que está logado at
 
 # Chave secreta necessária para usar mensagens flash
 # (usada para segurança interna do Flask)
-#app.secret_key = "segredo_super_secreto"
+# app.secret_key = "segredo_super_secreto"
+
+# FUNÇÃO DE CONEXÃO COM O BANCO DE DADOS #
+def conectar():
+    """
+    Cria e retorna uma conexão com o banco de dados SQLite.
+    O row_factory permite acessar os dados pelo nome da coluna.
+    Exemplo: turma["nome"] em vez de turma[0]
+    """
+    conn = sqlite3.connect("database.db")
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# @app.route("/")
+# def home():
+#     """
+#     Renderiza a página inicial do sistema.
+#     """
+#     return render_template("index.html")
+
 
 #------------------------------------------------LOGIN----------------------------------------------------------
 @app.route('/registrar', methods=['GET', 'POST'])
@@ -57,17 +75,6 @@ def registrar():
 def sair():
     logout_user()
     return redirect(url_for('login'))
-
-# FUNÇÃO DE CONEXÃO COM O BANCO DE DADOS #
-def conectar():
-    """
-    Cria e retorna uma conexão com o banco de dados SQLite.
-    O row_factory permite acessar os dados pelo nome da coluna.
-    Exemplo: turma["nome"] em vez de turma[0]
-    """
-    conn = sqlite3.connect("database.db")
-    conn.row_factory = sqlite3.Row
-    return conn
 
 
 # ROTA PRINCIPAL (HOME) #
@@ -95,11 +102,12 @@ def login():
         
         login_user(user)
         return redirect(url_for('home'))
+    
 
-
+#----------------------------------------------TURMAS-----------------------------------------------#
 
 # CRIAÇÃO DA TABELA (CASO NÃO EXISTA) # 
-def criar_tabela():
+def criar_tabela_turma():
     """
     Cria a tabela 'turmas' no banco de dados
     apenas se ela ainda não existir.
@@ -125,7 +133,7 @@ def criar_tabela():
 
 
 # Executa a criação da tabela ao iniciar o sistema
-criar_tabela()
+criar_tabela_turma()
 
 
 # LISTAR TODAS AS TURMAS # 
@@ -144,7 +152,7 @@ def listar_turmas():
     return render_template("turmas.html", turmas=turmas)
 
 
-# CADASTRAR NOVA TURMA # 
+# CADASTRAR TURMA # 
 @app.route("/cadastrar_turma", methods=["GET", "POST"])
 def cadastrar_turma():
     """
@@ -366,21 +374,21 @@ def cadastrar_servidor():
 
         cidade = request.form["cidade"]
 
-        genero = request.form["genero"]
+        genero = request.form.get("genero", "") #se não vier nada, não quebra o sistema.
 
         telefone = request.form["telefone"]
 
         cargo = request.form["cargo"]
 
-        data_ingresso = request.form["data"]
+        data_ingresso = request.form["data_ingresso"]
 
         conn = conectar()
 
         # Insere no banco
         conn.execute("""
-            INSERT INTO servidores
+            INSERT INTO servidores 
             (nome, 
-            cpf, 
+            cpf,
             email, 
             endereco, 
             estado, 
@@ -391,8 +399,7 @@ def cadastrar_servidor():
             data_ingresso)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (nome, cpf, email, endereco, estado, cidade,
-              genero, telefone, cargo, data))
-
+                genero, telefone, cargo, data_ingresso))
 
         conn.commit()
         conn.close()
@@ -403,7 +410,6 @@ def cadastrar_servidor():
 
 
 # EDITAR SERVIDOR #
-
 @app.route("/editar_servidores/<int:id>", methods=["GET", "POST"])
 def editar_servidor(id):
 
@@ -423,13 +429,13 @@ def editar_servidor(id):
 
         cidade = request.form["cidade"]
 
-        genero = request.form["genero"]
+        genero = request.form.get("genero", "")
 
         telefone = request.form["telefone"]
 
         cargo = request.form["cargo"]
 
-        data_ingresso = request.form["data"]
+        data_ingresso = request.form["data_ingresso"]
 
         conn.execute("""
             UPDATE servidores SET
@@ -445,7 +451,7 @@ def editar_servidor(id):
             data_ingresso = ?
             WHERE id = ?
         """, (nome, cpf, email, endereco, estado, cidade, 
-              genero, telefone, cargo, id))
+            genero, telefone, cargo, data_ingresso, id))
 
         conn.commit()
         conn.close()
@@ -466,6 +472,7 @@ def editar_servidor(id):
 
 @app.route("/deletar_servidores/<int:id>")
 def deletar_servidor(id):
+
     conn = conectar()
     # Abre conexão com o banco de dados
 
@@ -478,7 +485,7 @@ def deletar_servidor(id):
     conn.close()
     # Fecha conexão com o banco
 
-    flash("Servidor deletado com sucesso!", "sucesso")
+    flash("Servidores deletado com sucesso!", "sucesso")
 
     return redirect("/servidores?deletado=1")
     # Redireciona para a página de servidores
@@ -487,7 +494,5 @@ def deletar_servidor(id):
 
 # EXECUTA O SERVIDOR #
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     # debug=True permite atualizar automaticamente ao salvar
     app.run(debug=True)
