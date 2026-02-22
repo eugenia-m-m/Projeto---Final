@@ -40,11 +40,11 @@
 
     {% if request.args.get('deletado') %}
         <div class="alerta_sucesso">
-            Turma deletada com sucesso!
+            Turma deletado com sucesso!
         </div>
     {% endif %}
 
-     <div class="barra-pesquisa">
+    <div class="barra-pesquisa">
         <input type="text" id="buscar" placeholder="🔎Pesquisar turma...">
     </div>
 
@@ -69,8 +69,8 @@
                 <td>{{ servidor["email"] }}</td>
                 <td>{{ servidor["telefone"] }}</td>
                 <td>
-                    <a href="/editar_servidores/{{ servidores.id }}"><i class="fa-solid fa-pen"></i></a> <!--editar-->
-                    <a href="/deletar_servidores/{{ servidores.id }}" class="btn-deletar"><i class="fa-solid fa-trash"></i></a> <!--deletar-->
+                    <a href="/editar_servidores/{{ servidor.id }}"><i class="fa-solid fa-pen"></i></a>
+                    <a href="/deletar_servidores/{{ servidor.id }}" class="btn-deletar"><i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
             {% endfor %}
