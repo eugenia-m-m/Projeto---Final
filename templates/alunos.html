@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<!-- SIDEBAR -->
+
 <aside class="sidebar">
 
     <div class="logo-area">
@@ -44,7 +44,7 @@
     <h3>Total: <span id="totalAlunos">0</span></h3>
 
     <table>
-       <thead>
+        <thead>
             <tr>
                 <th>ID</th>
                 <th>Matrícula</th>
@@ -60,6 +60,102 @@
 <footer class="rodape">
     © Instituto Federal Baiano - Campus Bom Jesus da Lapa
 </footer>
+
+<script src="{{ url_for('static', filename='script_alunos.js') }}"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Lista de Alunos</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='alunos.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="logo-area">
+        <img src="{{ url_for('static', filename='Logo EducaFlow em verde.png') }}" alt="Logo">
+        <h2>EducaFlow</h2>
+    </div>
+
+    <nav>
+        <a href="/" class="menu-item"><i class="fa-solid fa-house"></i> Início</a>
+        <a href="/alunos" class="menu-item"><i class="fa-solid fa-user-graduate"></i> Alunos</a>
+        <a href="/turmas" class="menu-item"><i class="fa-solid fa-chalkboard"></i> Turmas</a>
+        <a href="/servidores" class="menu-item"><i class="fa-solid fa-user-tie"></i> Servidores</a>
+        <a href="/login" class="menu-item sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+    </nav>
+</aside>
+
+<div class="conteudo">
+    
+    <div class="topo">
+        <h1>Lista de Alunos</h1>
+        <a href="/cadastrar_alunos" class="btn-add"><i class="fa-solid fa-plus"></i> Adicionar Alunos</a>
+    </div>
+
+    <!-- ALERTA -->
+    {% if request.args.get('sucesso') %}
+    <div class="alerta_sucesso">
+        Atualização feita com sucesso!
+    </div>
+    {% endif %}
+
+    {% if request.args.get('deletado') %}
+        <div class="alerta_sucesso">
+            Turma deletado com sucesso!
+        </div>
+    {% endif %}
+
+    <!-- BARRA DE PESQUISA -->
+    <div class="barra-pesquisa">
+        <input type="text" id="buscar" placeholder="🔎Pesquisar alunos...">
+    </div>
+
+    <h3>Total: <span id="totalAlunos">0</span></h3>
+
+    <!-- TABELA QUE MOSTRA OS ALUNOS -->
+    <table class="tabela">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>matrícula</th>
+                <th>Turma</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody id="listaAlunos">
+            {% for aluno in alunos %}
+            <tr>
+                <td>{{ aluno["nome"] }}</td>
+                <td>{{ aluno["matricula"] }}</td>
+                <td>{{ aluno["turma"] }}</td>
+                <td>
+                    <a href="/editar_alunos/{{ aluno.id }}"><i class="fa-solid fa-pen"></i></a>
+                    <a href="/deletar_alunos/{{ aluno.id }}" class="btn-deletar"><i class="fa-solid fa-trash"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- MODAL QUE APARECE QUANDO CLICAR EM DELETAR -->
+<div id="modalConfirmacao" class="modal">
+    <div class="modal-content">
+        <h2>Confirmação</h2>
+        <p id="modalMensagem"></p>
+        <div class="modal-botoes">
+            <button id="btnCancelar">Cancelar</button>
+            <button id="btnConfirmar">Confirmar</button>
+        </div>
+    </div>
+</div>
 
 <script src="{{ url_for('static', filename='script_alunos.js') }}"></script>
 </body>
