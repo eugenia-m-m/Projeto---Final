@@ -513,7 +513,7 @@ def criar_tabela_alunos():
     conn.execute("""
         CREATE TABLE IF NOT EXISTS alunos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,  -- ID automático
-            nome TEXT,                             -- Nome do servidor
+            nome TEXT,                             -- Nome do aluno
             cpf TEXT,                              -- CPF
             email TEXT,                            -- Email
             endereco TEXT,                         -- Endereço
