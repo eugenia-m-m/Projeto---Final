@@ -124,7 +124,7 @@
             <tr>
                 <th>Nome</th>
                 <th>matrícula</th>
-                <th>Turma</th>
+                <th>Telefone</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -134,7 +134,7 @@
             <tr>
                 <td>{{ aluno["nome"] }}</td>
                 <td>{{ aluno["matricula"] }}</td>
-                <td>{{ aluno["turma"] }}</td>
+                <td>{{ aluno["telefone"] }}</td>
                 <td>
                     <a href="/editar_alunos/{{ aluno.id }}"><i class="fa-solid fa-pen"></i></a>
                     <a href="/deletar_alunos/{{ aluno.id }}" class="btn-deletar"><i class="fa-solid fa-trash"></i></a>
